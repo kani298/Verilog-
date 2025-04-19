@@ -1,0 +1,12 @@
+module ahb_decoder (
+    input wire [31:0] haddr,
+    output reg [1:0] sel
+);
+always @(*) begin
+        case (haddr[31:28])
+            4'h0: sel = 2'b01;  // Select slave 0
+            4'h1: sel = 2'b10;  // Select slave 1
+            default: sel = 2'b00;
+        endcase
+    end
+endmodule
