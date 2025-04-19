@@ -16,5 +16,4 @@ module ahb_arbiter (
             endcase
         end
     end
-
 endmodule
