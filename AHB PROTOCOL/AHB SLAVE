@@ -1,0 +1,34 @@
+module ahb_slave (
+    input wire clk,
+    input wire reset_n,
+    input wire [31:0] haddr,
+    input wire hwrite,
+    input wire [2:0] hsize,
+    input wire [31:0] hwdata,
+    output reg [31:0] hrdata,
+    input wire hready,
+    output reg hready_resp,
+    output reg hresp
+);
+reg [31:0] memory [0:255];  // Simple memory array
+    always @(posedge clk or negedge reset_n) begin
+        if (!reset_n) begin
+            hready_resp <= 1'b1;
+            hresp <= 1'b0;  // OKAY response
+        end else begin
+            if (hready) begin
+                if (hwrite) begin
+                    // Write operation
+                    memory[haddr] <= hwdata;
+                    hready_resp <= 1'b1;
+                end else begin
+                    // Read operation
+                    hrdata <= memory[haddr];
+                    hready_resp <= 1'b1;
+                end
+                hresp <= 1'b0;  // OKAY response
+            end
+        end
+    end
+endmodule
+
