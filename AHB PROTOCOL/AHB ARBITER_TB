@@ -1,0 +1,37 @@
+module tb_ahb_arbiter;
+
+    reg clk;
+    reg reset_n;
+    reg [1:0] busreq;
+    wire [1:0] grant;
+
+    // Instantiate the DUT (Design Under Test)
+    ahb_arbiter uut (
+        .clk(clk),
+        .reset_n(reset_n),
+        .busreq(busreq),
+        .grant(grant)
+    );
+
+    // Clock generation
+    always #5 clk = ~clk; // 100MHz clock
+
+    initial begin
+        $display("Time\tclk\treset_n\tbusreq\tgrant");
+        $monitor("%0dns\t%b\t%b\t%02b\t%02b", $time, clk, reset_n, busreq, grant);
+
+        clk = 0;
+        reset_n = 0;
+        busreq = 2'b00;
+
+        #10 reset_n = 1;
+
+        // Test different bus requests
+        #10 busreq = 2'b01;
+        #10 busreq = 2'b10;
+        #10 busreq = 2'b00;
+        #10 busreq = 2'b11;
+        #10 $finish;
+    end
+
+endmodule
