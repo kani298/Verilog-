@@ -1,0 +1,28 @@
+module ahb_decoder_tb;
+
+    // Testbench variables
+    reg [31:0] haddr;
+    wire [1:0] sel;
+
+    // Instantiate the Unit Under Test (UUT)
+    ahb_decoder uut (
+        .haddr(haddr),
+        .sel(sel)
+    );
+
+    initial begin
+        $display("Time\t haddr\t\t sel");
+        $monitor("%0t\t %h\t %b", $time, haddr, sel);
+
+        // Apply test vectors
+        #10 haddr = 32'h0000_0000;  // Should select slave 0 (sel = 01)
+        #10 haddr = 32'h1000_0000;  // Should select slave 1 (sel = 10)
+        #10 haddr = 32'h2000_0000;  // Should select none (sel = 00)
+        #10 haddr = 32'h0F00_0000;  // Should select slave 0 (sel = 01)
+        #10 haddr = 32'hF000_0000;  // Should select none (sel = 00)
+
+        #10 $finish;
+    end
+
+endmodule
+
