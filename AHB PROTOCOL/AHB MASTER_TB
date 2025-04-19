@@ -1,0 +1,64 @@
+module ahb_master_tb;
+
+    // Testbench signals
+    reg clk;
+    reg reset_n;
+    reg hgrant;
+    reg hready;
+    reg [31:0] hrdata;
+
+    wire hbusreq;
+    wire [31:0] haddr;
+    wire hwrite;
+    wire [2:0] hsize;
+    wire [2:0] hburst;
+    wire [3:0] hprot;
+    wire [31:0] hwdata;
+
+    // Instantiate the master module
+    ahb_master dut (
+        .clk(clk),
+        .reset_n(reset_n),
+        .hgrant(hgrant),
+        .hbusreq(hbusreq),
+        .haddr(haddr),
+        .hwrite(hwrite),
+        .hsize(hsize),
+        .hburst(hburst),
+        .hprot(hprot),
+        .hwdata(hwdata),
+        .hrdata(hrdata),
+        .hready(hready)
+    );
+
+    // Clock generator
+    initial clk = 0;
+    always #5 clk = ~clk;  // 100MHz clock
+
+    initial begin
+        // Monitor the signals
+        $monitor("Time=%0t | hbusreq=%0b | hgrant=%0b | haddr=%h | hwrite=%0b | hsize=%0b | hburst=%0b | hprot=%0b | hwdata=%h | hready=%0b",
+                 $time, hbusreq, hgrant, haddr, hwrite, hsize, hburst, hprot, hwdata, hready);
+
+        // Initialize
+        reset_n = 0;
+        hgrant  = 0;
+        hready  = 0;
+        hrdata  = 32'h00000000;
+
+        // Apply reset
+        #12 reset_n = 1;
+
+        // Start transaction
+        #10 hgrant = 1;  // Grant the bus
+
+        #20 hready = 1;  // Slave ready
+
+        #30 hready = 1;
+
+        #40 hgrant = 0;
+
+        #50 $finish;
+    end
+
+endmodule
