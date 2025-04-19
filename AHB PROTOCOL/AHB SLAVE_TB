@@ -1,0 +1,75 @@
+module ahb_slave_tb;
+
+  // Inputs
+  reg clk;
+  reg reset_n;
+  reg [31:0] haddr;
+  reg hwrite;
+  reg [2:0] hsize;
+  reg [31:0] hwdata;
+  reg hready;
+
+  // Outputs
+  wire [31:0] hrdata;
+  wire hready_resp;
+  wire hresp;
+
+  // Instantiate AHB slave
+  ahb_slave uut (
+    .clk(clk),
+    .reset_n(reset_n),
+    .haddr(haddr),
+    .hwrite(hwrite),
+    .hsize(hsize),
+    .hwdata(hwdata),
+    .hrdata(hrdata),
+    .hready(hready),
+    .hready_resp(hready_resp),
+    .hresp(hresp)
+  );
+
+  // Clock generation
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+
+  // Test procedure
+  initial begin
+    // Initialize
+    reset_n = 0;
+    haddr = 0;
+    hwrite = 0;
+    hwdata = 0;
+    hready = 0;
+    hsize = 3'b010;
+
+    #10 reset_n = 1;
+    #10 hready = 1;
+
+    // Write
+    #10 haddr = 32'h00000010;
+         hwrite = 1;
+         hwdata = 32'hDEADBEEF;
+
+    #10 hwrite = 0;
+
+    // Read
+    #10 haddr = 32'h00000010;
+
+    #20 $finish;
+  end
+
+  // Monitor
+  initial begin
+    $monitor("Time=%0t | Addr=%0h | Write=%0b | WData=%0h | RData=%0h | ReadyResp=%0b",
+              $time, haddr, hwrite, hwdata, hrdata, hready_resp);
+  end
+
+endmodule
+
+
+
+
+
+
