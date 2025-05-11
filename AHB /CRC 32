@@ -1,0 +1,39 @@
+module crc32_checker (
+    input wire [31:0] data,
+    input wire enable,
+    input wire clk,
+    input wire reset,
+    output reg [31:0] crc_out
+);
+    reg [31:0] crc;
+
+    function [31:0] next_crc32;
+        input [31:0] crc;
+        input [7:0] d;
+        integer i;
+        reg [31:0] c;
+        begin
+            c = crc ^ {24'b0, d};
+            for (i = 0; i < 8; i = i + 1)
+                if (c[31])
+                    c = (c << 1) ^ 32'h04C11DB7;
+                else
+                    c = c << 1;
+            next_crc32 = c;
+        end
+    endfunction
+
+    integer j;
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            crc <= 32'hFFFFFFFF;
+            crc_out <= 32'hFFFFFFFF;
+        end else if (enable) begin
+            crc = 32'hFFFFFFFF;
+            for (j = 0; j < 4; j = j + 1)
+                crc = next_crc32(crc, data[8*j +: 8]);
+            crc_out <= ~crc;
+        end
+    end
+endmodule
