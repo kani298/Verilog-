@@ -1,0 +1,77 @@
+module ahb_master (
+    input wire clk,
+    input wire reset,
+    input wire grant,
+    output reg [31:0] addr,
+    output reg [31:0] data_out,
+    input wire [31:0] data_in,
+    output reg [1:0] htrans,
+    output reg hwrite,
+    output reg hready,
+    output reg req
+);
+    reg [3:0] state;
+    localparam IDLE = 0, REQUEST = 1, WRITE = 2, READ = 3, WAIT = 4, VERIFY = 5, DONE = 6;
+    reg [31:0] temp_data;
+    integer counter;
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            addr <= 0;
+            data_out <= 0;
+            htrans <= 2'b00;
+            hwrite <= 0;
+            hready <= 1;
+            req <= 0;
+            state <= IDLE;
+            counter <= 0;
+        end else begin
+            case (state)
+                IDLE: begin
+                    req <= 1;
+                    counter <= 0;
+                    state <= REQUEST;
+                end
+                REQUEST: begin
+                    if (grant) begin
+                        addr <= 32'hA000_0000 + counter * 4;
+                        data_out <= 32'hABCD_0000 + counter;
+                        htrans <= 2'b10;
+                        hwrite <= 1;
+                        state <= WRITE;
+                    end
+                end
+                WRITE: begin
+                    hready <= 0;
+                    state <= WAIT;
+                end
+                WAIT: begin
+                    hready <= 1;
+                    htrans <= 2'b10;
+                    hwrite <= 0;
+                    state <= READ;
+                end
+                READ: begin
+                    temp_data <= data_in;
+                    state <= VERIFY;
+                end
+                VERIFY: begin
+                    if (temp_data == data_out) begin
+                        counter <= counter + 1;
+                        if (counter < 4) begin
+                            state <= REQUEST;
+                        end else begin
+                            state <= DONE;
+                        end
+                    end else begin
+                        state <= IDLE; // Fault retry
+                    end
+                end
+                DONE: begin
+                    req <= 0;
+                    state <= IDLE;
+                end
+            endcase
+        end
+    end
+endmodule
