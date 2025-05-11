@@ -1,0 +1,43 @@
+module ahb_arbiter (
+    input wire clk,
+    input wire reset,
+    input wire [1:0] req,           // 2-bit request signal from masters
+    input wire [7:0] qos0,          // 8-bit QoS value for master 0
+    input wire [7:0] qos1,          // 8-bit QoS value for master 1
+    output reg [1:0] grant          // 2-bit grant signal to indicate which master gets the bus
+);
+
+    reg [7:0] age_counter [1:0];    // Age counters for both masters
+    integer i;
+
+    // Always block triggered by clock or reset
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            grant <= 2'b00;
+            age_counter[0] <= 0;
+            age_counter[1] <= 0;
+        end else begin
+            // Update age counters
+            for (i = 0; i < 2; i = i + 1) begin
+                if (req[i])
+                    age_counter[i] <= age_counter[i] + 1;  // Increment age if request is active
+                else
+                    age_counter[i] <= 0;  // Reset age if request is not active
+            end
+
+            // Grant logic based on QoS and age counters
+            if (req[0] && req[1]) begin
+                if ((qos0 + age_counter[0]) > (qos1 + age_counter[1]))
+                    grant <= 2'b01;  // Master 0 gets the bus
+                else
+                    grant <= 2'b10;  // Master 1 gets the bus
+            end else if (req[0]) begin
+                grant <= 2'b01;  // Master 0 gets the bus
+            end else if (req[1]) begin
+                grant <= 2'b10;  // Master 1 gets the bus
+            end else begin
+                grant <= 2'b00;  // No master is requesting the bus
+            end
+        end
+    end
+endmodule
