@@ -1,0 +1,13 @@
+module ahb_decoder (
+    input wire [31:0] addr,
+    output reg [2:0] slave_select
+);
+    always @(*) begin
+        case (addr[31:28])
+            4'h0: slave_select = 3'b001;
+            4'h1: slave_select = 3'b010;
+            4'h2: slave_select = 3'b100;
+            default: slave_select = 3'b000;
+        endcase
+    end
+endmodule
