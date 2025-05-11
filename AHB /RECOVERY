@@ -1,0 +1,33 @@
+module recovery (
+    input wire clk,
+    input wire reset,
+    input wire fault_flag,
+    output reg retry_request,
+    output reg [2:0] retry_count,
+    output reg recovery_fail
+);
+    localparam MAX_RETRIES = 3;
+
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            retry_request <= 0;
+            retry_count <= 0;
+            recovery_fail <= 0;
+        end else begin
+            if (fault_flag) begin
+                if (retry_count < MAX_RETRIES) begin
+                    retry_request <= 1;
+                    retry_count <= retry_count + 1;
+                    recovery_fail <= 0;
+                end else begin
+                    retry_request <= 0;
+                    recovery_fail <= 1;
+                end
+            end else begin
+                retry_request <= 0;
+                retry_count <= 0;
+                recovery_fail <= 0;
+            end
+        end
+    end
+endmodule
