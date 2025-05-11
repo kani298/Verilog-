@@ -1,0 +1,14 @@
+module fault_isolation (
+    input wire [31:0] data_expected,
+    input wire [31:0] data_received,
+    input wire [31:0] crc_expected,
+    input wire [31:0] crc_received,
+    output reg fault_flag
+);
+    always @(*) begin
+        if ((data_expected !== data_received) || (crc_expected !== crc_received))
+            fault_flag = 1'b1;
+        else
+            fault_flag = 1'b0;
+    end
+endmodule
