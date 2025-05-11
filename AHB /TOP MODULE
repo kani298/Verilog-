@@ -1,0 +1,98 @@
+module top (
+    input wire clk,
+    input wire reset,
+    input wire [31:0] addr,
+    input wire [31:0] data_in,
+    output wire [31:0] data_out,
+    output wire hwrite,
+    output wire hready,
+    output wire [1:0] htrans,
+    output wire req,
+    output wire [2:0] slave_select,
+    output wire fault_flag,
+    output wire retry_request,
+    output wire recovery_fail
+);
+
+    wire [1:0] grant;               // Arbitration signals
+    wire [31:0] master_data_out;    // Data from master
+    wire [31:0] slave_data_out;     // Data from slave
+    wire [31:0] crc_out;            // CRC output
+    wire [31:0] expected_crc;       // Expected CRC (for comparison)
+    
+    // Declare QoS values as individual wires
+    wire [7:0] qos0;                // QoS for master 0
+    wire [7:0] qos1;                // QoS for master 1
+
+    wire [31:0] mem [0:255];        // Slave memory
+    
+    // Instantiate the decoder
+    decoder u_ahb_decoder (
+        .addr(addr),
+        .slave_select(slave_select)
+    );
+
+    // Instantiate the arbiter
+    arbiter u_ahb_arbiter (
+        .clk(clk),
+        .reset(reset),
+        .req(req),
+        .qos0(qos0),  // Pass individual QoS values
+        .qos1(qos1),  // Pass individual QoS values
+        .grant(grant)
+    );
+
+    // Instantiate the master module
+    master u_ahb_master (
+        .clk(clk),
+        .reset(reset),
+        .grant(grant[0]),
+        .addr(addr),
+        .data_out(master_data_out),
+        .data_in(slave_data_out),
+        .htrans(htrans),
+        .hwrite(hwrite),
+        .hready(hready),
+        .req(req)
+    );
+
+    // Instantiate the slave module
+    slave u_ahb_slave (
+        .clk(clk),
+        .reset(reset),
+        .addr(addr),
+        .data_in(master_data_out),
+        .htrans(htrans),
+        .hwrite(hwrite),
+        .hready(hready),
+        .data_out(slave_data_out)
+    );
+
+    // Instantiate the CRC checker
+    crc32_checker u_crc32 (
+        .data(master_data_out),
+        .enable(hready),
+        .clk(clk),
+        .reset(reset),
+        .crc_out(crc_out)
+    );
+
+    // Instantiate the fault isolation module
+    fault_isolation u_fault_isolation (
+        .data_expected(master_data_out),
+        .data_received(slave_data_out),
+        .crc_expected(expected_crc),
+        .crc_received(crc_out),
+        .fault_flag(fault_flag)
+    );
+
+    // Instantiate the recovery module
+    recovery u_recovery (
+        .clk(clk),
+        .reset(reset),
+        .fault_flag(fault_flag),
+        .retry_request(retry_request),
+        .recovery_fail(recovery_fail)
+    );
+
+endmodule
