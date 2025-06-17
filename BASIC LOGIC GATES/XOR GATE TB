@@ -1,0 +1,13 @@
+module tb;
+     reg a,b;
+     wire y;
+     xor_gate DUT (.a(a),.b(b),.y(y));
+     initial begin 
+      $monitor("t=%0t:a=%b,b=%b,y=%b",$time,a,b,y);
+      #5 a=0;b=0;
+      #5 a=0;b=1;
+      #5 a=1;b=0;
+      #5 a=1;b=1;
+      #25 $finish;
+     end
+ endmodule
