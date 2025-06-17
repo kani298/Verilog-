@@ -1,0 +1,6 @@
+module halfadder(input a,b,output sum,carry);
+         
+          assgin sum=a^b;
+          assgin carry=a&b;
+         end
+endmodule
