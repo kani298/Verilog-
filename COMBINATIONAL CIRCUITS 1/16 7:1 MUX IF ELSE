@@ -1,0 +1,33 @@
+module mux7to1(input[6:0]i,input[2:0]s,output reg y);
+            always@(*)begin
+              if(s[2]==0)begin
+                 if(s[1]==0)begin
+                    if(s[0]==0)
+                         y=i[0];
+                    else
+                         y=i[1];
+                 end else begin
+                    if(s[0]==0)
+                         y=i[2];
+                    else
+                         y=i[3];
+                 end
+               end else begin
+                 if(s[1]==0)begin
+                    if(s[0]==0)
+                         y=i[4];
+                    else
+                         y=i[5];
+                 end else begin
+                    if(s[0]==0)
+                         y=i[6];
+                    else
+                         y=1'bx;
+                         
+                 end
+               end
+           end
+endmodule                    
+                   
+               
+             
