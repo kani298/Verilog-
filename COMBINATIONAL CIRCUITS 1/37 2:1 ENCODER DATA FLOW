@@ -1,3 +1,0 @@
-module encoder2to1_df(input d0, d1, output x);
-      assign x = d1;
-endmodule
