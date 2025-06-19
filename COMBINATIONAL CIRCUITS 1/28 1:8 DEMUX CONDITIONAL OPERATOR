@@ -1,0 +1,11 @@
+module demux1to8(input i,input[2:0]s,output[7:0]y);
+     assign y[0]=(s==3'b000)?i:1'b0;
+     assign y[1]=(s==3'b001)?i:1'b0;
+     assign y[2]=(s==3'b010)?i:1'b0;
+     assign y[3]=(s==3'b011)?i:1'b0;
+     assign y[4]=(s==3'b100)?i:1'b0;
+     assign y[5]=(s==3'b101)?i:1'b0;
+     assign y[6]=(s==3'b110)?i:1'b0;
+     assign y[7]=(s==3'b111)?i:1'b0;
+     
+endmodule
