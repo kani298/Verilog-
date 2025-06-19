@@ -1,0 +1,32 @@
+module tb;
+     reg i;
+     reg [2:0]s;
+     wire [7:0]y;
+     demux1to8 DUT(.i(i),.s(s),.y(y));
+     initial begin
+       $monitor("%t=0t:i=%b,s=%b,y=%b",$time,i,s,y);
+       i=1;
+       #2 s=3'b000;
+       #2 s=3'b001;
+       #2 s=3'b010;
+       #2 s=3'b011;
+       #2 s=3'b100;
+       #2 s=3'b101;
+       #2 s=3'b110;
+       #2 s=3'b111;
+       
+       
+       #2 i=0;
+       #2 s=3'b000;
+       #2 s=3'b001;
+       #2 s=3'b010;
+       #2 s=3'b011;
+       #2 s=3'b100;
+       #2 s=3'b101;
+       #2 s=3'b110;
+       #2 s=3'b111;
+       #4 $finish;
+     end
+endmodule
+
+
