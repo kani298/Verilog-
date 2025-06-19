@@ -1,0 +1,15 @@
+module mux2to1(input i0,i1,input s,output y);
+         assign y= s?i1:i0;
+endmodule
+
+module mux8to1(input[7:0]i,input [2:0]s,output y);
+       wire y1,y2,y3,y4,y5,y6;
+       mux2to1 m1(i[0],i[1],s[0],y1);
+       mux2to1 m2(i[2],i[3],s[0],y2);
+       mux2to1 m3(i[4],i[5],s[0],y3);
+       mux2to1 m4(i[6],i[7],s[0],y4);
+       mux2to1 m5(y1,y2,s[1],y5);
+       mux2to1 m6(y3,y4,s[1],y6);
+       mux2to1 m7(y5,y6,s[2],y);
+endmodule
+       
