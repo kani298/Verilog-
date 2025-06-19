@@ -1,0 +1,15 @@
+module demux1to2(input i,s, output y0, y1);
+    assign y0 = (s == 1'b0) ? i : 1'b0;
+    assign y1 = (s == 1'b1) ? i : 1'b0;
+endmodule
+
+module demux1to8(input i, input [2:0] s, output [7:0] y);
+    wire y1, y2, y3, y4, y5, y6;
+    demux1to2 d1(i, s[2], y1, y2); 
+    demux1to2 d2(y1, s[1], y3, y4); 
+    demux1to2 d3(y2, s[1], y5, y6); 
+    demux1to2 d4(y3, s[0], y[0], y[1]);
+    demux1to2 d5(y4, s[0], y[2], y[3]);
+    demux1to2 d6(y5, s[0], y[4], y[5]);
+    demux1to2 d7(y6, s[0], y[6], y[7]);
+endmodule
