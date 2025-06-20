@@ -1,0 +1,17 @@
+module tb;
+  reg  [3:0] a, b;
+  reg  cin;
+  wire [3:0] diff;
+  wire carry;
+  binary_subtractor DUT (a, b, cin, diff, carry);
+  initial begin
+    $monitor("%t=0t:a=%b, b=%b, cin=%b,diff=%b, carry=%b", $time, a, b, cin, diff, carry);
+    cin=1'b1;
+    #10 a = 4'b0101; b = 4'b0011; 
+    #10 a = 4'b1010; b = 4'b0101;  
+    #10 a = 4'b1000; b = 4'b1000; 
+    #10 a = 4'b0011; b = 4'b0101; 
+    #2 $finish;
+  end    
+
+endmodule
