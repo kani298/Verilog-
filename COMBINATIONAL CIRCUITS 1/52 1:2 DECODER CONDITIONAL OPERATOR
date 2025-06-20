@@ -1,0 +1,4 @@
+module decoder1to2(input d, output [1:0] y);
+  assign y[0] = (d == 1'b0) ? 1'b1 : 1'b0;
+  assign y[1] = (d == 1'b1) ? 1'b1 : 1'b0;
+endmodule 
