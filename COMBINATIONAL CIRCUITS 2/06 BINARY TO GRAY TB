@@ -1,0 +1,14 @@
+module tb;
+  reg  [3:0] binary;
+  wire [3:0] gray;
+  binary_to_gray DUT ( .binary(binary),.gray(gray));
+  initial begin
+    $monitor("%t=0t:binary=%b,gray=%b", $time, binary, gray);
+    #2 binary = 4'b0000;
+    #2 binary = 4'b0001; 
+    #2 binary = 4'b1010; 
+    #2 binary = 4'b1111; 
+    #2 $finish;
+  end
+
+endmodule
