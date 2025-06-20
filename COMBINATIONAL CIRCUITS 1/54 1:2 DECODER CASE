@@ -1,0 +1,10 @@
+module decoder1to2 (input d, output reg [1:0] y);
+  always @(*) begin
+    case (d)
+      1'b0: y = 2'b01;
+      1'b1: y = 2'b10;
+      default: y = 2'b00;
+    endcase
+  end
+endmodule
+
