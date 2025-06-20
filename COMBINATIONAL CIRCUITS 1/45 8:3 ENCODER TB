@@ -1,0 +1,21 @@
+module tb;
+    reg [7:0] d;
+    wire [2:0] x;
+
+    encoder8to3 DUT(.d(d), .x(x)); 
+
+    initial begin
+        $monitor("%t=0t: d = %b,x = %b", $time, d, x);
+        d = 8'b00000000; #2;
+        d = 8'b00000001; #2;
+        d = 8'b00000010; #2;
+        d = 8'b00000100; #2;
+        d = 8'b00001000; #2;
+        d = 8'b00010000; #2;
+        d = 8'b00100000; #2;
+        d = 8'b01000000; #2;
+        d = 8'b10000000; #2;
+        d = 8'b11000000; #2;  
+        #2 $finish;
+    end
+endmodule
