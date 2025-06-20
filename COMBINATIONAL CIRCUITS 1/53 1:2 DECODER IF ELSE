@@ -1,0 +1,8 @@
+module decoder1to2(input d, output reg [1:0] y);
+  always @(*) begin
+    if (d == 1'b0)
+      y = 2'b01;
+    else
+      y = 2'b10;
+  end
+endmodule
