@@ -1,0 +1,12 @@
+module tb;
+  reg d;
+  wire [1:0] y;
+
+  decoder1to2 DUT (.d(d), .y(y)); 
+  initial begin
+    $monitor("%t=0t: d=%b, y=%b", $time, d, y);
+    d = 1'b0; #2;
+    d = 1'b1; #2;
+    #4 $finish;
+  end
+endmodule
