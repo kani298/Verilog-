@@ -1,0 +1,24 @@
+module tb;
+
+  reg  [3:0] a,b;
+  reg ctrl;
+  wire [3:0] result;
+  wire cout;
+  adder_subtractor DUT (.a(a),.b(b),.ctrl(ctrl),.result(result),.cout(cout));
+  initial begin
+    $monitor("%t=0t: ctrl=%b,A=%b,B=%b,Result=%b,Cout=%b",  $time, ctrl, a, b, result, cout);
+    ctrl = 0;
+    #2 a = 4'b0101; b = 4'b0011; 
+    ctrl = 0;
+    #2 a = 4'b1010; b = 4'b0001; 
+    ctrl = 1;
+    #2 a = 4'b0111; b = 4'b0101; 
+    ctrl = 1;
+    #2 a = 4'b1011; b = 4'b0010; 
+    ctrl = 1;
+    #2 a = 4'b1000; b = 4'b1000; 
+    #2 $finish;
+  end
+
+endmodule
+
