@@ -1,0 +1,24 @@
+module fulladder(
+    input  a, b, cin,
+    output sum, carry
+);
+    assign sum   = a ^ b ^ cin;
+    assign carry = (a & b) | (b & cin) | (a & cin);
+endmodule
+
+module adder_subtractor (
+    input [3:0] a, b,
+    input ctrl,              
+    output [3:0] result,
+    output cout
+);
+    wire [3:0] b_xor;
+    wire c0, c1, c2;
+
+    assign b_xor = b ^ {4{ctrl}};   
+    fulladder fa0(a[0], b_xor[0], ctrl, result[0], c0);
+    fulladder fa1(a[1], b_xor[1], c0,   result[1], c1);
+    fulladder fa2(a[2], b_xor[2], c1,   result[2], c2);
+    fulladder fa3(a[3], b_xor[3], c2,   result[3], cout);
+endmodule
+
