@@ -1,0 +1,32 @@
+module decoder1to2(input d, output y0, y1);
+    assign y0 = (d == 1'b0) ? 1'b1 : 1'b0;
+    assign y1 = (d == 1'b1) ? 1'b1 : 1'b0;
+endmodule
+
+module decoder3to8(input [2:0] d, output [7:0] y);
+    wire w1, w2, w3, w4, w5, w6;
+    wire a0, a1, a2, a3, a4, a5, a6, a7;
+
+    // Stage 1
+    decoder1to2 dec1(d[2], w1, w2); 
+
+    // Stage 2
+    decoder1to2 dec2(d[1], w3, w4); 
+    decoder1to2 dec3(d[1], w5, w6); 
+
+    // Stage 3
+    decoder1to2 dec4(d[0], a0, a1); 
+    decoder1to2 dec5(d[0], a2, a3); 
+    decoder1to2 dec6(d[0], a4, a5); 
+    decoder1to2 dec7(d[0], a6, a7); 
+
+    // Final Output: AND with selectors
+    assign y[0] = a0 & w1 & w3;
+    assign y[1] = a1 & w1 & w3;
+    assign y[2] = a2 & w1 & w4;
+    assign y[3] = a3 & w1 & w4;
+    assign y[4] = a4 & w2 & w5;
+    assign y[5] = a5 & w2 & w5;
+    assign y[6] = a6 & w2 & w6;
+    assign y[7] = a7 & w2 & w6;
+endmodule
