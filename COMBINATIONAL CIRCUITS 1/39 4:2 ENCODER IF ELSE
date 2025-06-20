@@ -1,0 +1,14 @@
+module encoder4to2 (input [3:0] d, output reg [1:0] x);
+    always @(*) begin
+        if (d == 4'b0001)
+            x = 2'b00;
+        else if (d == 4'b0010)
+            x = 2'b01;
+        else if (d == 4'b0100)
+            x = 2'b10;
+        else if (d == 4'b1000)
+            x = 2'b11;
+        else
+            x = 2'bxx;
+    end
+endmodule
