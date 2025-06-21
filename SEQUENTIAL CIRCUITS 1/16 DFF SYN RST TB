@@ -1,0 +1,22 @@
+module tb;
+    reg clk, rst, D;
+    wire Q;
+
+    dff_sync_reset DUT (.clk(clk), .rst(rst), .D(D), .Q(Q));
+
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;   
+    end
+
+    initial begin
+        $monitor("%t=0t:clk=%b,rst=%b,D=%b,Q=%b", $time, clk, rst, D, Q);
+
+        #10 rst = 0; D = 0; 
+        #10 rst = 1; D = 1;   
+        #10 rst = 0; D = 1;  
+        #10 D = 0;          
+        #10 rst = 1;          
+        #10 $finish;
+    end
+endmodule
