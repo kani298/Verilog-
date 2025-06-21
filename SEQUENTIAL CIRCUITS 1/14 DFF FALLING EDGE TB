@@ -1,0 +1,25 @@
+module tb;
+    reg clk, D;
+    wire Q;
+
+    dff DUT (.clk(clk), .D(D), .Q(Q));
+
+    
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    
+    initial begin
+        $monitor("%t=0t:clk=%b, D=%b,Q=%b", $time, clk, D, Q);
+
+        #10 D = 0;   
+        #10 D = 1; 
+        #10 D = 0;   
+        #10 D = 1;   
+        #10 D = 1;  
+        #10 D = 0; 
+        #10 $finish;
+    end
+endmodule
