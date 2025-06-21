@@ -1,0 +1,19 @@
+module tb;
+    reg S, R;
+    wire Q, Qbar;
+
+    sr_latch_nand DUT(S, R, Q, Qbar);
+
+    initial begin
+        $monitor("%t=0t:S=%b,R=%b, Q=%b,Qbar=%b",$time, S, R, Q, Qbar);
+
+          #2 S = 1; R = 1; 
+          #2 S = 0; R = 1; 
+          #2 S = 1; R = 1; 
+          #2 S = 1; R = 0; 
+          #2 S = 1; R = 1; 
+          #2 S = 0; R = 0; 
+          #3 $finish;
+    end
+endmodule
+
