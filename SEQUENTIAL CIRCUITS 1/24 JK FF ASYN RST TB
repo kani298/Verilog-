@@ -1,0 +1,24 @@
+module tb;
+    reg clk, rst, J, K;
+    wire Q;
+
+    jk_ff_async_reset DUT (.clk(clk), .rst(rst), .J(J), .K(K), .Q(Q));
+
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;  
+    end
+
+    initial begin
+        $monitor("%t=0t:clk=%b,J=%b,K=%b,Q=%b", $time, clk, J, K, Q);
+        #10 rst = 1; J = 0; K = 0;   
+        #10 rst = 0; J = 0; K = 0; 
+        #10 J = 1; K = 0;             
+        #10 J = 1; K = 1;             
+        #10 rst = 1;                 
+        #10 rst = 0; J = 0; K = 1;   
+        #10 J = 1; K = 1;           
+        #10 $finish;
+    end
+endmodule
+
