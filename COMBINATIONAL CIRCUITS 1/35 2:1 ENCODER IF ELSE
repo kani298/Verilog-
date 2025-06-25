@@ -1,0 +1,10 @@
+module encoder2to1(input [1:0] d, output reg x);
+    always @(*) begin
+        if (d == 2'b01)
+            x = 1'b0;
+        else if (d == 2'b10)
+            x = 1'b1;
+        else
+            x = 1'bx;
+    end
+endmodule
