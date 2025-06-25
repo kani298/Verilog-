@@ -1,0 +1,9 @@
+module encoder2to1(input [1:0] d, output reg x);
+    always @(*) begin
+        case (d)
+            2'b01: x = 1'b0;
+            2'b10: x = 1'b1;
+            default: x = 1'bx;
+        endcase
+    end
+endmodule
