@@ -1,9 +1,9 @@
-module sr_latch_nor(input R,S,output Q,Qbar);     
+module sr_latch_nor(input r,s,output q,qbar);     
      wire n1,n2;
-     assign n1 = ~(R | n2); 
-     assign n2 = ~(S | n1);    
-     assign Q = n1;
-     assign Qbar = n2;
+     assign n1 = ~(r | n2); 
+     assign n2 = ~(s | n1);    
+     assign q= n1;
+     assign qbar = n2;
 endmodule
 
 module sr_norlatch(input s, r, output reg q, qbar);
