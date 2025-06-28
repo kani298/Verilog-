@@ -1,7 +1,29 @@
 module sr_latch_nor(input R,S,output Q,Qbar);     
      wire n1,n2;
-     assign n1 = ~(R | Qbar); 
+     assign n1 = ~(R | n2); 
      assign n2 = ~(S | n1);    
      assign Q = n1;
      assign Qbar = n2;
 endmodule
+
+module sr_latch(input s, r, output reg q, qbar);
+  always @(s or r) begin
+    if (~s && r) begin         // Reset
+      q = 0;
+      qbar = 1;
+    end
+    else if (s && ~r) begin    // Set
+      q = 1;
+      qbar = 0;
+    end
+    else if (~s && ~r) begin   // Hold
+      q = q;      
+      qbar = qbar;
+    end
+    else if (s && r) begin     // Invalid
+      q = 1'bx;
+      qbar = 1'bx;
+    end
+  end
+endmodule
+
