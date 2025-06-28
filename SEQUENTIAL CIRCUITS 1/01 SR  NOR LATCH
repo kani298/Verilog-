@@ -6,7 +6,7 @@ module sr_latch_nor(input R,S,output Q,Qbar);
      assign Qbar = n2;
 endmodule
 
-module sr_latch(input s, r, output reg q, qbar);
+module sr_norlatch(input s, r, output reg q, qbar);
   always @(s or r) begin
     if (~s && r) begin         // Reset
       q = 0;
