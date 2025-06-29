@@ -1,0 +1,48 @@
+module tb;
+
+    reg clk;
+    reg reset;
+    reg load;
+    reg [2:0] data_in;
+    wire [2:0] q;
+
+   
+    loadable_up_counter_3bit_ff DUT (
+        .clk(clk),
+        .reset(reset),
+        .load(load),
+        .data_in(data_in),
+        .q(q)
+    );
+
+    
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    
+    initial begin
+       $monitor("t=%0t:clk=%b,reset=%b,load=%b,data_in=%b,q=%b", $time, clk, reset, load, data_in, q);
+        reset = 1;
+        load = 0;
+        data_in = 3'b000;
+        #12;
+        reset = 0;
+        #30;
+        load = 1;
+        data_in = 3'b101;
+        #10; 
+        load = 0;
+        #50;
+
+        // Load with another value
+        load = 1;
+        data_in = 3'b011;
+        #10;
+        load = 0;
+        #30;
+        $finish;
+    end
+
+endmodule
