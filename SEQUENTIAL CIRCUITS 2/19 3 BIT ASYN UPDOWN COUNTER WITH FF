@@ -1,0 +1,35 @@
+module tff (
+    output reg q,
+    input clk,
+    input reset,
+    input t
+);
+    always @(negedge clk or negedge reset) begin
+        if (!reset)
+            q <= 1'b0;
+        else if (t)
+            q <= ~q;
+    end
+endmodule
+module async_updown_counter_3bit_ff (
+    input clk,
+    input reset,
+    input up_down,        
+    output [2:0] q
+);
+    wire clk1, clk2;
+
+    wire [2:0] nq;
+    assign nq = ~q;
+
+   
+    assign clk1 = (up_down == 0) ? q[0]  : nq[0]; 
+    assign clk2 = (up_down == 0) ? q[1]  : nq[1]; 
+
+ 
+    tff t0 (q[0], clk,  reset, 1'b1);     
+    tff t1 (q[1], clk1, reset, 1'b1);     
+    tff t2 (q[2], clk2, reset, 1'b1);     
+
+endmodule
+
