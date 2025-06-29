@@ -1,0 +1,15 @@
+module tb;
+  reg clk, reset;
+  wire [2:0] q;
+  async_up_counter_3bit_tff DUT (.clk(clk),.reset(reset),.q(q));
+  initial begin
+      clk=0;
+      forever #5 clk= ~clk;
+  end
+  initial begin 
+       $monitor("t=%0t:q=%b",$time,q);    
+       reset=1'b0;
+       #10 reset=1'b1;
+       #100 $finish;
+  end
+endmodule
