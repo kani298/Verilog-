@@ -1,0 +1,54 @@
+module tb;
+
+    reg clk;
+    reg reset;
+    reg up_down;       
+    wire [2:0] q;
+
+    // Instantiate the counter
+    async_updown_counter_3bit DUT (
+        .clk(clk),
+        .reset(reset),
+        .up_down(up_down),
+        .q(q)
+    );
+
+    
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+   
+    initial begin
+        $monitor("t=%0t:clk=%b,reset=%b,up_down=%b,q=%b", $time,clk,reset, up_down, q);
+
+        
+
+        // Initial DOWN counting ( starts from 111)
+        up_down = 1;
+        reset = 0;  // apply reset
+        #10;
+        reset = 1;  // release reset
+        #80;
+
+        // Switch to UP counting (resets to 000)
+        up_down = 0;
+        reset = 0;
+        #10;
+        reset = 1;
+        #80;
+
+        // Switch back to DOWN
+        up_down = 1;
+        reset = 0;
+        #10;
+        reset = 1;
+        #80;
+
+        $finish;
+    end
+
+endmodule
+
+
