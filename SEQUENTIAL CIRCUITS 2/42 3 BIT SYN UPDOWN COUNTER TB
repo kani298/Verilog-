@@ -1,0 +1,44 @@
+module tb;
+
+    reg clk, reset, up;
+    wire [2:0] q;
+
+    syn_updown_counter_3bit DUT (
+        .clk(clk),
+        .reset(reset),
+        .up(up),
+        .q(q)
+    );
+
+    
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk; 
+    end
+
+  
+    initial begin
+        $monitor("t=%0t:clk=%b,reset=%b,up=%b,q=%03b", $time, clk, reset, up, q);
+
+        
+        reset = 1;
+        up = 1;    
+        #12;
+        reset = 0;
+
+        // Count up for 50 ns
+        #50;
+
+        // Switch to down count
+        up = 0;
+        #50;
+
+        // Switch to up again
+        up = 1;
+        #40;
+
+        $finish;
+    end
+
+endmodule
+
