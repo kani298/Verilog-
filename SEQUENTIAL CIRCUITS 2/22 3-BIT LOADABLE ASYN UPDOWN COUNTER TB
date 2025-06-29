@@ -1,0 +1,46 @@
+module tb;
+
+    reg clk;
+    reg reset;
+    reg load;
+    reg up_down;
+    reg [2:0] data_in;
+    wire [2:0] q;
+
+    loadable_async_updown_counter_3bit DUT (
+        .clk(clk),
+        .reset(reset),
+        .load(load),
+        .up_down(up_down),
+        .data_in(data_in),
+        .q(q)
+    );
+
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    initial begin
+        $monitor("t=%0t:clk=%b,reset=%b,load=%b,up_down=%b,data_in=%b,q=%b", $time,clk,reset,load,up_down, data_in, q);
+       
+
+        //  Down counting from 111
+        up_down = 1; load = 0; data_in = 3'b000;
+        reset = 0; #10; reset = 1;
+        #80;
+
+        // Load 101
+        load = 1; data_in = 3'b101; #10;
+        load = 0; #60;
+
+        // Switch to Up and Load 010
+        up_down = 0; reset = 0; #10; reset = 1;
+        load = 1; data_in = 3'b010; #10;
+        load = 0; #60;
+
+        $finish;
+    end
+
+endmodule
+
