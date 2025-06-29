@@ -1,0 +1,38 @@
+module loadable_async_down_counter_3bit (
+    input wire clk,
+    input wire reset,
+    input wire load,
+    input wire [2:0] data_in,
+    output reg [2:0] q
+);
+
+    wire [2:0] nq = ~q;
+
+    always @(negedge clk or negedge reset) begin
+        if (!reset)
+            q[0] <= 1'b1;
+        else if (load)
+            q[0] <= data_in[0];
+        else
+            q[0] <= ~q[0];
+    end
+
+    always @(negedge nq[0] or negedge reset) begin
+        if (!reset)
+            q[1] <= 1'b1;
+        else if (load)
+            q[1] <= data_in[1];
+        else
+            q[1] <= ~q[1];
+    end
+
+    always @(negedge nq[1] or negedge reset) begin
+        if (!reset)
+            q[2] <= 1'b1;
+        else if (load)
+            q[2] <= data_in[2];
+        else
+            q[2] <= ~q[2];
+    end
+
+endmodule
