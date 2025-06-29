@@ -1,0 +1,17 @@
+module loadable_down_counter_3bit (
+    input wire clk,
+    input wire reset,
+    input wire load,
+    input wire [2:0] data_in,
+    output reg [2:0] q
+);
+
+    always @(posedge clk) begin
+        if (reset)
+            q <= 3'b111;
+        else if (load)
+            q <= data_in;
+        else
+            q <= q - 1;
+    end
+endmodule
