@@ -1,0 +1,12 @@
+module syn_down_counter_3bit (
+    input wire clk,
+    input wire reset,
+    output reg [2:0] q
+);
+    always @(posedge clk or posedge reset) begin
+        if (reset)
+            q <= 4'b111;
+        else
+            q <= q - 1;
+    end
+endmodule
