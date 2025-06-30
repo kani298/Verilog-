@@ -1,0 +1,32 @@
+module tb;
+
+    reg clk;
+    reg reset;
+    reg load;
+    reg [3:0] data_in;
+    wire data_out;
+
+   piso_left_shift DUT (
+        .clk(clk),
+        .reset(reset),
+        .load(load),
+        .data_in(data_in),
+        .data_out(data_out)
+    );
+
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    initial begin
+        $monitor("t=%0t:clk=%b,reset=%b,load=%b,data_in=%b,data_out=%b", $time, clk, reset, load, data_in, data_out);
+        reset = 1; load = 0; data_in = 4'b0000; #10;
+        reset = 0;
+        load = 1; data_in = 4'b1011; #10;
+        load = 0; #50;
+
+        $finish;
+    end
+
+endmodule
