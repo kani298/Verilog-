@@ -1,0 +1,38 @@
+module tb;
+
+  reg clk, rst, i;
+  wire y;
+
+  fsm_1010 DUT (.clk(clk), .rst(rst), .i(i), .y(y));
+
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+
+  initial begin
+    $monitor("t=%0t:clk=%b,rst=%b,i=%b,y=%b", $time, clk, rst, i, y);
+  end
+
+  initial begin
+    rst = 0; i = 0;
+    #5 rst = 1;       
+
+    #10 i = 1;  // S0 -> S1
+    #10 i = 0;  // S1 -> S2
+    #10 i = 1;  // S2 -> S3
+    #10 i = 0;  // S3 -> S2 => y=1
+
+    #10 i = 1;  // S2 -> S3
+    #10 i = 0;  // S3 -> S2 => y=1
+
+    #10 i = 1;  // S2 -> S3
+    #10 i = 1;  // S3 -> S1 => y=0
+
+    #10 i = 0;  // S1 -> S2
+    #10 i = 1;  // S2 -> S3
+    #10 i = 0;  // S3 -> S2 => y=1
+
+    #20 $finish;
+  end
+endmodule
