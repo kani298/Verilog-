@@ -1,0 +1,41 @@
+module tb;
+
+  reg clk, rst, i;
+  wire y;
+
+  detect_111 DUT (
+    .clk(clk),
+    .rst(rst),
+    .i(i),
+    .y(y)
+  );
+
+ 
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk;
+  end
+
+ 
+  initial begin
+    $monitor("t=%0t:i=%b, y=%b", $time, i, y);
+  end
+
+ 
+  initial begin
+    rst = 0; i = 0;
+    #7 rst = 1;
+    #10 i = 1;  // S0→S1
+    #10 i = 1;  // S1→S2
+    #10 i = 1;  // S2→S3 → y = 1
+    #10 i = 0;  // S3→S0 → y = 0
+    #10 i = 1;  // S0→S1
+    #10 i = 1;  // S1→S2
+    #10 i = 1;  // S2→S3 → y = 1
+    #10 i = 1;  // S3→S3 → y = 1 
+    #10 i = 0;  // S3→S0 → y = 0
+
+    #20 $finish;
+  end
+
+endmodule
