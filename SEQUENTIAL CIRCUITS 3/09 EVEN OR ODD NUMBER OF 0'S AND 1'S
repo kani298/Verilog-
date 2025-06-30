@@ -1,0 +1,46 @@
+module even_odd_detector (
+    input wire clk,
+    input wire rst,
+    input wire i,             
+    output reg even_0,         
+    output reg even_1         
+);
+
+ 
+  parameter S0 = 2'b00, 
+            S1 = 2'b01, 
+            S2 = 2'b10, 
+            S3 = 2'b11; 
+
+  reg [1:0] state, next_state;
+
+
+  always @(posedge clk or negedge rst) begin
+    if (!rst)
+      state <= S0;
+    else
+      state <= next_state;
+  end
+
+  
+  always @(*) begin
+    case (state)
+      S0: next_state = (i == 0) ? S2 : S1;
+      S1: next_state = (i == 0) ? S3 : S0;
+      S2: next_state = (i == 0) ? S0 : S3;
+      S3: next_state = (i == 0) ? S1 : S2;
+      default: next_state = S0;
+    endcase
+  end
+
+  
+  always @(*) begin
+    case (state)
+      S0: begin even_0 = 1; even_1 = 1; end
+      S1: begin even_0 = 1; even_1 = 0; end
+      S2: begin even_0 = 0; even_1 = 1; end
+      S3: begin even_0 = 0; even_1 = 0; end
+    endcase
+  end
+
+endmodule
