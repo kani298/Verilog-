@@ -1,0 +1,16 @@
+module sipo_right_shift (
+    input wire clk,
+    input wire reset,
+    input wire data_in,
+    output reg [3:0] q   
+);
+
+    always @(posedge clk) begin
+        if (reset)
+            q <= 4'b0000;
+        else
+            q <= {data_in, q[3:1]}; 
+    end
+
+endmodule
+
