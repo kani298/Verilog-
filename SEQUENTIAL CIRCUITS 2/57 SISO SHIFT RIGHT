@@ -1,0 +1,17 @@
+module siso_right_shift (
+    input wire clk,
+    input wire reset,
+    input wire data_in,
+    output wire data_out
+);
+    reg [3:0] shift_reg;
+
+    always @(posedge clk) begin
+        if (reset)
+            shift_reg <= 4'b0000;
+        else
+            shift_reg <= {data_in, shift_reg[3:1]};
+    end
+
+    assign data_out = shift_reg[0];  
+endmodule
