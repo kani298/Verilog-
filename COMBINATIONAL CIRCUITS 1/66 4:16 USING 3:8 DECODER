@@ -1,0 +1,11 @@
+module decoder4to16 (
+    input [3:0] a,
+    output [15:0] y
+);
+    wire [7:0] y0, y1;
+
+    decoder3to8 d0 (.a(a[2:0]), .en(~a[3]), .y(y0));  
+    decoder3to8 d1 (.a(a[2:0]), .en(a[3]),  .y(y1));  
+
+    assign y = {y1, y0}; 
+endmodule
