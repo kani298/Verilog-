@@ -3,7 +3,7 @@ module tb;
      wire diff,borrow;
      Half_subtractor DUT(.a(a),.b(b),.diff(diff),.borrow(borrow));
      initial begin
-     $monitor("a=%b,b=%b,diff=%b,borrow=%b",a,b,diff,borrow);
+     $monitor("t=%0t:a=%b,b=%b,diff=%b,borrow=%b",a,b,diff,borrow);
      #5 a=0;b=0;
      #5 a=0;b=1;
      #5 a=1;b=0;
