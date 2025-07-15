@@ -1,7 +1,7 @@
 module priority_encoder4to2 (input [3:0] d, output reg [1:0] y);
   always @(*) begin
     if (d[3])
-      y = 2'b11;  // Highest priority
+      y = 2'b11;  
     else if (d[2])
       y = 2'b10;
     else if (d[1])
