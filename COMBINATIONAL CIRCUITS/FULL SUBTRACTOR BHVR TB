@@ -3,7 +3,7 @@ module tb;
      wire diff,borrow;
      Full_subtractor DUT(.a(a),.b(b),.bin(bin),.diff(diff),.borrow(borrow));
      initial begin
-      $monitor("%t=0t:a=%b,b=%b,bin=%b,diff=%b,borrow=%b",$time,a,b,bin,diff,borrow);
+      $monitor("t=%0t:a=%b,b=%b,bin=%b,diff=%b,borrow=%b",$time,a,b,bin,diff,borrow);
       #2 a=0;b=0;bin=0;
       #2 a=0;b=0;bin=1;
       #2 a=0;b=1;bin=0;
