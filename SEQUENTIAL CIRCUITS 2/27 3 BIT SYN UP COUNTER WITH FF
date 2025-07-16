@@ -17,9 +17,10 @@ module syn_up_counter_3bit_tff (
     input wire reset,
     output wire [2:0] q
 );
-    wire t0 = 1;
-    wire t1 = q[0];
-    wire t2 = q[0] & q[1];
+    wire t0,t1,t2;
+    assign t0 = 1;
+    assign t1 = q[0];
+    assign t2 = q[0] & q[1];
 
     tff tff0(clk, reset, t0, q[0]);
     tff tff1(clk, reset, t1, q[1]);
