@@ -5,7 +5,7 @@ module syn_down_counter_3bit (
 );
     always @(posedge clk or posedge reset) begin
         if (reset)
-            q <= 4'b111;
+            q <= 3'b111;
         else
             q <= q - 1;
     end
