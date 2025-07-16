@@ -1,12 +1,13 @@
 module tff (
     output reg q,
     input clk,
-    input reset
+    input reset,
+    input t
 );
     always @(negedge clk or negedge reset) begin
         if (!reset)
             q <= 1'b0;
-        else
+        else if(t)
             q <= ~q;
     end
 endmodule
@@ -14,17 +15,21 @@ endmodule
 module async_down_counter_3bit_tff (
     input clk,
     input reset,
-    output [2:0] q
+    output wire [2:0] qbar
 );
 
-    wire [2:0] nq;
-    assign nq = ~q;
+    wire t=1'b1;
+    wire clk1,clk2;
+    wire q0,q1,q2;
+    assign clk1=q0;
+    assign clk2=q1;
+   
 
     
-    tff t0(q[0], clk,    reset);  
-    tff t1(q[1], nq[0],  reset);
-    tff t2(q[2], nq[1],  reset);
-
+    tff t0(q0, clk,  reset,t);  
+    tff t1(q1, clk1, reset,t);
+    tff t2(q2, clk2, reset,t);
+    
+    assign qbar = ~{q2, q1, q0};
 endmodule
-
 
