@@ -6,7 +6,7 @@ module tff_with_load (
     input wire d_load,   
     output reg q
 );
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset)
             q <= 1'b0;
         else if (load)
@@ -23,9 +23,10 @@ module loadable_up_counter_3bit_ff (
     input wire [2:0] data_in,
     output wire [2:0] q
 );
-    wire t0 = 1;
-    wire t1 = q[0];
-    wire t2 = q[0] & q[1];
+    wire t0,t1,t2;
+    assign t0 = 1'b1;
+    assign t1 = q[0];
+    assign t2 = q[0] & q[1];
 
     tff_with_load tff0(clk, reset, t0, load, data_in[0], q[0]);
     tff_with_load tff1(clk, reset, t1, load, data_in[1], q[1]);
