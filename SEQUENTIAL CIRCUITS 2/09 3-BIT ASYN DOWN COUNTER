@@ -1,11 +1,13 @@
 module async_down_counter_3bit (
     input wire clk,
     input wire reset,
-    output reg [2:0] q
+    output wire [2:0] qbar
 );
     
+    reg [2:0]nq
     
-    always @(posedge clk or negedge reset) begin
+    
+    always @(negedge clk or negedge reset) begin
         if (!reset)
             q[0] <= 1'b1;
         else
@@ -13,7 +15,7 @@ module async_down_counter_3bit (
     end
 
    
-    always @(posedge q[0] or negedge reset) begin
+    always @(negedge q[0] or negedge reset) begin
         if (!reset)
             q[1] <= 1'b1;
         else
