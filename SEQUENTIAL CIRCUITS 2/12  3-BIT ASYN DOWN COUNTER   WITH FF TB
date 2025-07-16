@@ -1,8 +1,8 @@
 module tb;
 
   reg clk, reset;
-  wire [2:0] q;
-  async_down_counter_3bit_tff DUT ( .clk(clk),.reset(reset),.q(q));
+  wire [2:0] qbar;
+  async_down_counter_3bit_tff DUT ( .clk(clk),.reset(reset),.qbar(qbar));
   initial begin
       clk=0;
       forever #5 clk= ~clk;
