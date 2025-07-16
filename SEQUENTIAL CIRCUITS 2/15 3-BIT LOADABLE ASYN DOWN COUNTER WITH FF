@@ -7,7 +7,7 @@ module tff (
 );
     always @(negedge clk or negedge reset) begin
         if (!reset)
-            q <= 1'b1;
+            q <= 1'b0;
         else if (load)
             q <= data_in;
         else
