@@ -17,12 +17,11 @@ module async_updown_counter_3bit_ff (
     input up_down,        
     output [2:0] q
 );
-    wire [2:0] nq;
-    assign nq = ~q;
-
+    
+    wire clk1,clk2;
    
-    wire clk1 = (up_down == 1) ? q[0]  : nq[0]; 
-    wire clk2 = (up_down == 1) ? q[1]  : nq[1]; 
+    assign clk1 = up_down ? q[0]  : ~q[0]; 
+    assign clk2 = up_down ? q[1]  : ~q[1]; 
 
  
     tff t0 (q[0], clk,  reset);     
