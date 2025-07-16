@@ -6,7 +6,7 @@ module loadable_async_down_counter_3bit (
     output reg [2:0] q
 );
 
-    wire [2:0] nq 
+    wire [2:0] nq; 
     assign nq= ~q;
 
     always @(negedge clk or negedge reset) begin
