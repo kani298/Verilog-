@@ -5,13 +5,13 @@ module async_updown_counter_3bit (
     output reg [2:0] q
 );
 
-    
-    wire clk1 = (up_down == 0) ? q[0] : ~q[0];  
-    wire clk2 = (up_down == 0) ? q[1] : ~q[1];  
+    wire clk1,clk2;
+    assign clk1 = (up_down == 0) ? ~q[0] : q[0];   or   (up_down == 1) ? q[0] : ~q[0];
+    assign clk2 = (up_down == 0) ? ~q[1] : ~q[1];  or   (up_down == 1) ? q[1] : ~q[1];  
  
     always @(negedge clk or negedge reset) begin
         if (!reset)
-            q[0] <= (up_down) ? 1'b1 : 1'b0;  
+            q[0] <= 1'b0; 
         else
             q[0] <= ~q[0];
     end
@@ -19,7 +19,7 @@ module async_updown_counter_3bit (
    
     always @(negedge clk1 or negedge reset) begin
         if (!reset)
-            q[1] <= (up_down) ? 1'b1 : 1'b0;
+            q[1] <= 1'b0;
         else
             q[1] <= ~q[1];
     end
@@ -27,7 +27,7 @@ module async_updown_counter_3bit (
   
     always @(negedge clk2 or negedge reset) begin
         if (!reset)
-            q[2] <= (up_down) ? 1'b1 : 1'b0;
+            q[2] <= 1'b0;
         else
             q[2] <= ~q[2];
     end
