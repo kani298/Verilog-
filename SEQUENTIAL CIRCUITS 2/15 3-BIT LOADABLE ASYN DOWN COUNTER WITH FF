@@ -23,7 +23,8 @@ module loadable_async_down_counter_3bit (
     output [2:0] q
 );
 
-    wire [2:0] nq = ~q;
+    wire [2:0] nq
+    assign nq = ~q;
 
     tff t0(q[0], clk,    reset, load, data_in[0]);
     tff t1(q[1], nq[0],  reset, load, data_in[1]);
