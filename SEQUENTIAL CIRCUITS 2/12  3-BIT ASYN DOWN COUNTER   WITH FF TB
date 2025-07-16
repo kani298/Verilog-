@@ -8,7 +8,7 @@ module tb;
       forever #5 clk= ~clk;
   end
   initial begin 
-       $monitor("t=%0t:clk=%b,reset=%b,q=%b",$time,clk,reset,q);    
+       $monitor("t=%0t:clk=%b,reset=%b,qbar=%b",$time,clk,reset,qbar);    
        reset=1'b0;
        #10 reset=1'b1;
        #100 $finish;
