@@ -5,7 +5,7 @@ module sipo_left_shift (
     output reg [3:0] q   
 );
 
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset)
             q <= 4'b0000;
         else
