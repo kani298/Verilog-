@@ -1,0 +1,32 @@
+module tb_tff_sync_reset;
+
+    reg clk, rst, t;
+    wire q, qbar;
+
+   
+    tff_sync_reset dut (.clk(clk),.rst(rst),.t(t),.q(q),.qbar(qbar));
+
+   
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    
+    initial begin
+        $monitor("time=%0t:clk=%b,rst=%b,t=%b ,q=%b qbar=%b", $time, clk, rst, t, q, qbar);
+
+        
+        rst = 1; t = 0; #10;     // At posedge clk: q = 0
+        rst = 0; t = 1; #10;     // Toggle q = 1
+        t = 1; #10;              // Toggle q = 0
+        t = 0; #10;              // Hold q = 0
+        t = 1; #10;              // Toggle q = 1
+        rst = 1; #10;            // Reset q = 0
+        rst = 0; t = 1; #10;     // Toggle q = 1
+        t = 1; #10;              // Toggle q = 0
+
+        $finish;
+    end
+
+endmodule
