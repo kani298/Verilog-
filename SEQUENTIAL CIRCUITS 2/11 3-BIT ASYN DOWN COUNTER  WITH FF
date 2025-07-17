@@ -19,8 +19,8 @@ module async_down_counter_3bit_tff (
 );
 
     tff t0(.q(q0), .clk(clk), .reset(reset),.t(1'b1));  
-    tff t1(.q(q1), .clk(q0), .reset(reset),.t(1'b1));
-    tff t2(.q(q2), .clk(q1), .reset(reset),.t(1'b1));
+    tff t1(.q(q1), .clk(~q0), .reset(reset),.t(1'b1));
+    tff t2(.q(q2), .clk(~q1), .reset(reset),.t(1'b1));
     
    
 endmodule
