@@ -2,7 +2,7 @@ module tff (
     input clk,
     input reset,
     input t,
-    output reg q,
+    output reg q
 );
     always @(negedge clk or negedge reset) begin
         if (!reset)
