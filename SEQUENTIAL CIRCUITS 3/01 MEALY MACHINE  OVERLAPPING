@@ -23,7 +23,7 @@ always @(*) begin
     S0: next_state = (i == 1) ? S1 : S0;
     S1: next_state = (i == 0) ? S2 : S1;
     S2: next_state = (i == 1) ? S3 : S0;
-    S3: next_state = (i == 0) ? S2 : S1;  
+    S3: next_state = (i == 0) ? S2 : S1; 
     default: next_state = S0;
   endcase
 end
