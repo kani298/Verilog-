@@ -1,9 +1,10 @@
 module jk_ff_sync_reset(
     input clk, rst,    
     input J, K,
-    output reg Q
+    output reg Q,
+    output wire Qbar
 );
-
+    assign Qbar=~Q;
     always @(posedge clk) begin
         if (rst)
             Q <= 0;                    
