@@ -25,7 +25,7 @@ module fsm_1010_moore_nonoverlap (
   always @(*) begin
     case (state)
       S0: next_state = (i == 1) ? S1 : S0;
-      S1: next_state = (i == 0) ? S2 : S0; 
+      S1: next_state = (i == 0) ? S2 : S1; 
       S2: next_state = (i == 1) ? S3 : S0;
       S3: next_state = (i == 0) ? S4 : S0;
       S4: next_state = S0;  
