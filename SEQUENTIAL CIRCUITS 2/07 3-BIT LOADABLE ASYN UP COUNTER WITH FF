@@ -1,10 +1,10 @@
 module tff (
-    output reg q,
     input clk,
     input reset,
     input load,
     input data_in,
-    input t
+    input t,
+    output reg q
 );
     always @(negedge clk or negedge reset) begin
         if (!reset)
@@ -21,17 +21,12 @@ module loadable_async_up_counter_3bit (
     input reset,
     input load,
     input [2:0] data_in,
-    output [2:0] q
+    output q0,q1,q2
 );
-    wire t=1'b1;
-    wire clk1,clk2;
-    wire q0,q1,q2;
-    assign clk1=q0;
-    assign clk2=q1;
-    assign q={q2,q1,q0};
+  
 
-    tff t0(q0, clk,    reset, load, data_in[0],t);
-    tff t1(q1, clk1,   reset, load, data_in[1],t);
-    tff t2(q2, clk2,   reset, load, data_in[2],t);
+    tff t0(.q(q0), .clk(clk), .reset(reset), .load(load), .data_in(data_in[0]),.t(1'b1));
+    tff t1(.q(q1), .clk(q0),  .reset(reset), .load(load), .data_in(data_in[1]),.t(1'b1));
+    tff t2(.q(q2), .clk(q1),  .reset(reset), .load(load), .data_in(data_in[2]),.t(1'b1));
 
 endmodule
