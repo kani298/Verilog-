@@ -1,32 +1,25 @@
 module tff (
-    output reg q,
     input clk,
-    input reset,
-    input t
+    input rst,
+    input t,
+    output reg q
 );
-    always @(negedge clk or negedge reset) begin
-        if (!reset)
+    always @(negedge clk or negedge rst) begin
+        if (!rst)
             q <= 1'b0;
-        else if(t)
+        else if (t)
             q <= ~q;
     end
 endmodule
-module async_up_counter_3bit_tff (
+module async_up_counter_3bit_ff (
     input clk,
-    input reset,
-    output [2:0] q
+    input rst,
+    output wire q0, q1, q2
 );
-     wire t=1'b1;
-     wire clk1,clk2;
-     wire q0,q1,q2;
-     assign clk1=q0;
-     assign clk2=q1;
-     assign q={q2,q1,q0};
-
 
     
-    tff t0(q0, clk,   reset,t);
-    tff t1(q1, clk1,  reset,t);
-    tff t2(q2, clk2,  reset,t);
+    tff T0 (.clk(clk),  .rst(rst), .t(1'b1), .q(q0));
+    tff T1 (.clk(q0),   .rst(rst), .t(1'b1), .q(q1));
+    tff T2 (.clk(q1),   .rst(rst), .t(1'b1), .q(q2));
 
-endmodule 
+endmodule
