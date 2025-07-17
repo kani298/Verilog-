@@ -1,0 +1,30 @@
+module tb;
+
+    reg clk, t;
+    wire q, qbar;
+
+    
+    tff DUT (.clk(clk),.t(t),.q(q),.qbar(qbar);
+
+   
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+   
+    initial begin
+        $monitor("time=%0t:clk=%b t=%b => q=%b qbar=%b", $time, clk, t, q, qbar);
+
+        t = 0; #10;    // Hold
+        t = 1; #10;    // Toggle to 1
+        t = 1; #10;    // Toggle to 0
+        t = 0; #10;    // Hold
+        t = 1; #10;    // Toggle to 1
+        t = 1; #10;    // Toggle to 0
+        t = 0; #10;    // Hold
+
+        $finish;
+    end
+
+endmodule
