@@ -6,7 +6,7 @@ module siso_right_shift (
 );
     reg [3:0] shift_reg;
 
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset)
             shift_reg <= 4'b0000;
         else
