@@ -5,6 +5,7 @@ module sr_ff_async_reset (
     output reg Q,
     output Qbar
 );
+    assign Qbar = ~Q;
     always @(posedge clk or negedge rst) begin
         if (!rst)
             Q <= 0;
