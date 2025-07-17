@@ -3,7 +3,7 @@ module loadable_async_down_counter_3bit (
     input wire reset,
     input wire load,
     input wire [2:0] data_in,
-    output reg q0,q1,q2
+    output reg[2:0]q
 );
 
     
