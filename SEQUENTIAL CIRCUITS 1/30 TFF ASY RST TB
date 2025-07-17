@@ -1,0 +1,36 @@
+module tb;
+
+    reg clk, rst, t;
+    wire q, qbar;
+
+   
+    tff_async_reset DUT (.clk(clk),.rst(rst),.t(t),.q(q),.qbar(qbar));
+
+    
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+  
+    initial begin
+        $monitor("time=%0t:clk=%b,rst=%b,t=%b,q=%b,qbar=%b", $time, clk, rst, t, q, qbar);
+
+        
+        rst = 1; t = 0; #3;     // q = 0 immediately
+        rst = 0; #7;            // wait for clk edge
+
+        t = 1; #10;             // Toggle q = 1
+        t = 1; #10;             // Toggle q = 0
+        t = 0; #10;             // Hold q = 0
+
+        rst = 1; #2;            // Async reset → q = 0 immediately
+        rst = 0; #8;
+
+        t = 1; #10;             // Toggle q = 1
+        t = 1; #10;             // Toggle q = 0
+
+        $finish;
+    end
+
+endmodule
