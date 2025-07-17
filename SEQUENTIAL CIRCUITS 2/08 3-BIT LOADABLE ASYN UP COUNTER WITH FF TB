@@ -4,15 +4,17 @@ module tb;
     reg reset;
     reg load;
     reg [2:0] data_in;
-    wire [2:0] q;
+    wire q0,q1,q2;
 
-    // Instantiate the counter
+    
     loadable_async_up_counter_3bit DUT(
         .clk(clk),
         .reset(reset),
         .load(load),
         .data_in(data_in),
-        .q(q)
+        .q0(q0),
+        .q1(q1),
+        .q2(q2)
     );
 
     
@@ -23,7 +25,7 @@ module tb;
 
    
     initial begin
-        $monitor("t=%0t:reset=%b,load=%b,data_in=%b,q=%b", $time, reset,load, data_in, q);
+        $monitor("t=%0t:reset=%b,load=%b,data_in=%b,q0=%b,q1=%b,q2=%b", $time, reset,load, data_in, q0,q1,q2);
 
         
         reset= 0; load = 0; data_in = 3'b000;
@@ -46,3 +48,4 @@ module tb;
     end
 
 endmodule
+
