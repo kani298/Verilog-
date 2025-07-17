@@ -12,11 +12,13 @@ module tb;
     initial begin
         $monitor("%t=0t:clk=%b,rst=%b,D=%b,Q=%b", $time, clk, rst, D, Q);
 
-        #10 rst = 0; D = 0; 
-        #10 rst = 1; D = 1;   
-        #10 rst = 0; D = 1;  
-        #10 D = 0;          
-        #10 rst = 1;          
+        #10 rst = 0; D = 0;    //q=0
+        #10 D=1;               //q=1
+        #10 D=0;               //q=0
+        #10 rst = 1; D = 1;    //q=0 
+        #10 rst = 0;           //q=1(take previous value of d)
+        #10 D = 0;             //q=0      
+                           
         #10 $finish;
     end
 endmodule
