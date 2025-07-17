@@ -2,10 +2,10 @@
  module async_down_counter_3bit (
     input wire clk,
     input wire reset,
-    output wire [2:0] qbar
+    output reg [2:0] q
 );
 
-    reg [2:0] q;
+    
 
     always @(negedge clk or negedge reset) begin
         if (!reset)
@@ -29,6 +29,6 @@
     end
 
     
-    assign qbar = q;
+    
 
 endmodule
