@@ -19,6 +19,6 @@ module sr_ff_async_reset (
         end
     end
 
-    assign Qbar = ~Q;
+    
 endmodule
 
