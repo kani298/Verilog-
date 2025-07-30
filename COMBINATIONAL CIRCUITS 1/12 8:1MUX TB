@@ -7,7 +7,7 @@ module tb;
       initial begin
          $monitor("%t=0t:i=%b,s=%b,y=%b",$time,i,s,y);
          i=8'b10010101;
-         
+         #1;
          for(j=0;j<8;j=j+1)begin
             s=j[2:0];
             #5;
