@@ -15,3 +15,26 @@ module pipo_right_shift (
     end
 endmodule
 
+
+
+
+module pipo_shift_reg (
+    input wire clk,
+    input wire rst,
+    input wire load,               // 1 = load parallel data
+    input wire [3:0] data_in,      // 4-bit parallel input
+    output reg [3:0] q             // 4-bit parallel output
+);
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            q <= 4'b0000;                  // Reset clears the register
+        end else if (load) begin
+            q <= data_in;                  // Load parallel data
+        end else begin
+            q <= q >> 1;                   // Right shift on every clock
+        end
+    end
+
+endmodule
+
