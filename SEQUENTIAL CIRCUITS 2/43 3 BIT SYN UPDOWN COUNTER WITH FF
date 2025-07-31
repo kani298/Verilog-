@@ -23,7 +23,7 @@ module syn_updown_counter_3bit_ff (
     assign t1 = up ? q[0]         : ~q[0];
     assign t2 = up ? q[0] & q[1]  : ~q[0] & ~q[1];
 
-    tff tff0(clk, reset, t0, q[0]);
-    tff tff1(clk, reset, t1, q[1]);
-    tff tff2(clk, reset, t2, q[2]);
+    tff tff0(.clk(clk), .reset(reset), .t0(t0), .q(q[0]));
+    tff tff1(.clk(clk), .reset(reset), .t1(t1), .q(q[1]));
+    tff tff2(.clk(clk), .reset(reset), .t2(t2), .q(q[2]));
 endmodule
