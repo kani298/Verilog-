@@ -28,7 +28,7 @@ module loadable_up_counter_3bit_ff (
     assign t1 = q[0];
     assign t2 = q[0] & q[1];
 
-    tff_with_load tff0(clk, reset, t0, load, data_in[0], q[0]);
-    tff_with_load tff1(clk, reset, t1, load, data_in[1], q[1]);
-    tff_with_load tff2(clk, reset, t2, load, data_in[2], q[2]);
+    tff_with_load tff0(.clk(clk),.reset(reset), .t(t0), .load(load), .data(data_in[0]), .q(q[0]));
+    tff_with_load tff1(.clk(clk),.reset(reset), .t(t1), .load(load), .data(data_in[1]), .q(q[1]));
+    tff_with_load tff2(.clk(clk),.reset(reset), .t(t2), .load(load), .data(data_in[2]), .q(q[2]));
 endmodule
