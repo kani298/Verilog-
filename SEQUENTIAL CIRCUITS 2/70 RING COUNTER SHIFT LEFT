@@ -1,4 +1,4 @@
-module ring_counter (
+module johnson_counter (
     input  wire clk,
     input  wire rst,        
     output reg [3:0] q
