@@ -4,7 +4,7 @@ module tb;
     reg reset;
     wire [2:0] q;
 
-    johson_counter_3bit DUT (clk, reset, q);
+    johnson_counter_3bit DUT (clk, reset, q);
     initial begin
         clk = 0;
         forever #5 clk = ~clk;
